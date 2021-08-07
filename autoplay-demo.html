@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Auto Play Demo by Youjun</title>
+
+    <!-- AWS IVS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video-js.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video.min.js"></script>
+    <script src="https://player.live-video.net/1.3.1/amazon-ivs-videojs-tech.min.js"></script>
+</head>
+<body>
+
+    只要把 "&lt;video&gt;" 的 autoplay 拿掉，就不會自動撥放了。<p>
+    學習重點：
+    <ul>
+        <li>控制影片的大小</li>
+        <li>自動撥放</li>
+    </ul>
+
+    <!-- 
+    - video/mp4 寫成 video/ogg 也可以，
+    -->
+
+    <hr>
+    <h1>This is .mp4 file</h1>
+    <video width="960" height="540" controls autoplay>
+        <source src="./video/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <hr>
+    <h1>This is .webm file</h1>
+    <video width="960" height="540" controls autoplay>
+        <source src="./video/SampleVideo_1280x720_1mb.webm" type="video/webm"> <!-- video/mp4 寫這樣也可以 -->
+        Your browser does not support the video tag.
+    </video>
+
+    <hr>
+    <h1>This is .mov file</h1>
+    <video width="960" height="540" controls autoplay>
+        <source src="./video/SampleVideo_1280x720_1mb.mov" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <hr>
+    <h1>This is .mkv file</h1>
+    <video width="960" height="540" controls autoplay>
+        <source src="./video/SampleVideo_1280x720_1mb.mkv" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <hr>
+    <h1>This is .flv file</h1>
+    HTML does not support the .flv.<br>
+    html 不能直接引入 flv 格式的視訊，只能通過引入其他播放器來播放 flv 格式的視訊。
+
+    <hr>
+    <h1>This is .avi file</h1>
+    Plays well on Windows computers, but not in web browsers.
+    
+    <hr>
+    <h1>This is .gif file</h1>
+    <img src="./gif/gif-01.gif" alt="this slowpoke moves"  width="250" />&ensp;&ensp;
+    <img src="./gif/gif-02.gif" alt="this slowpoke moves"  width="250" />&ensp;&ensp;
+    <img src="./gif/gif-03.gif" alt="this slowpoke moves"  width="250" />
+    
+    <hr>
+    <h1>This is .m3u8 file</h1>
+    <!-- CSS  -->
+    <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
+    
+    <!-- HTML -->
+    <video id='hls-example'  class="video-js vjs-default-skin" width="960" height="540" controls autoplay>
+        <source type="application/x-mpegURL" src="https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8">
+    </video>
+    
+    <!-- JS code -->
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>
+    <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+    
+    <script>
+        var player = videojs('hls-example');
+        // player.play(); // 可以用這邊自動撥放
+    </script>
+
+
+    <hr>
+    <div class="video-container">
+        <video id="amazon-ivs-videojs" class="video-js vjs-4-3 vjs-big-play-centered" controls autoplay playsinline></video>
+    </div>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .video-container {
+            width: 960px;
+            height: 540px;
+            /* margin: 15px; */
+        }
+    </style>
+    <script>
+        (function play() {
+            // Get playback URL from Amazon IVS API
+            var PLAYBACK_URL = 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8';
+            
+            // Register Amazon IVS as playback technology for Video.js
+            registerIVSTech(videojs);
+
+            // Initialize player
+            var player = videojs('amazon-ivs-videojs', {
+               techOrder: ["AmazonIVS"]
+            }, () => {
+               console.log('Player is ready to use!');
+               // Play stream
+               player.src(PLAYBACK_URL);
+            });
+        })();
+    </script>
+</body>
+</html>
